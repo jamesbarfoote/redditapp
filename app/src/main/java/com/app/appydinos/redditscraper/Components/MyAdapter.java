@@ -15,8 +15,6 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import static com.app.appydinos.redditscraper.R.id.imageView;
-
 /**
  * Created by james on 17-Apr-17.
  * Adapter that deals with displaying the cards
@@ -34,12 +32,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         private TextView mTitleText;
         private TextView mContentText;
         private ImageView mImage;
+        private TextView mPostInfo;
 
         private ViewHolder(View v) {
             super(v);
             mTitleText = (TextView) v.findViewById(R.id.title);
             mContentText = (TextView) v.findViewById(R.id.contentText);
             mImage = (ImageView) v.findViewById(R.id.post_image);
+            mPostInfo = (TextView) v.findViewById(R.id.postInfo);
         }
     }
 
@@ -47,6 +47,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public MyAdapter(@NonNull ArrayList<RedditItemDTO> myDataset, @NonNull Context context) {
         mDataset = myDataset;
         mContext = context;
+    }
+
+    public ArrayList<RedditItemDTO> getDataset() {
+        return mDataset;
     }
 
     // Create new views (invoked by the layout manager)
@@ -67,7 +71,17 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         RedditItemDTO currentItem = mDataset.get(position);
         holder.mTitleText.setText(currentItem.titleText);
         holder.mContentText.setText(currentItem.contentText);
-        holder.mImage.setImageBitmap(currentItem.imageBitmap);
+        if (!currentItem.imageURL.isEmpty()) {
+            Glide.with(mContext)
+                    .load(currentItem.imageURL)
+                    .placeholder(R.drawable.ic_menu_camera)
+                    .crossFade()
+                    .into(holder.mImage);
+        }
+//        if(currentItem.imageBitmap != null) {
+//            holder.mImage.setImageBitmap(currentItem.imageBitmap);
+//        }
+        holder.mPostInfo.setText(currentItem.user + " \u2022 " + currentItem.points + "pts \u2022 " + currentItem.comments + " comments");
     }
 
     // Return the size of your dataset (invoked by the layout manager)

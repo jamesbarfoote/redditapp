@@ -2,25 +2,27 @@ package com.app.appydinos.redditscraper;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.app.appydinos.redditscraper.Components.MyAdapter;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private RecyclerView mRecyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MainActivityViewLogic mViewLogic;
 
@@ -50,11 +52,20 @@ public class MainActivity extends AppCompatActivity
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        mViewLogic.getJSONData("askreddit", "hot");
         }
 
     protected void populateScreen(@NonNull ArrayList<RedditItemDTO> myDataset) {
         mAdapter = new MyAdapter(myDataset, this);
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    protected void replaceItem(RedditItemDTO dto, int index) {
+        ArrayList<RedditItemDTO> data = mAdapter.getDataset();
+        mAdapter.getDataset().get(index).imageBitmap = dto.imageBitmap;
+//        data.remove(index);
+//        data.add(index, dto);
+//        populateScreen(data);
     }
 
     @Override
@@ -96,21 +107,28 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            mViewLogic.getJSONData("frontpage", "hot");
         } else if (id == R.id.nav_gallery) {
-
+            mViewLogic.getJSONData("raspberry_pi", "new");
         } else if (id == R.id.nav_slideshow) {
-
+            mViewLogic.getJSONData("newzealand", "new");
         } else if (id == R.id.nav_manage) {
-
+            mViewLogic.getJSONData("earthporn", "new");
         } else if (id == R.id.nav_share) {
-
+            mViewLogic.getJSONData("redditdev", "new");
         } else if (id == R.id.nav_send) {
-
+            mViewLogic.getJSONData("android", "new");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+//    private static MainActivityViewLogic.ViewLogicDelegate delegate = new MainActivityViewLogic.ViewLogicDelegate() {
+//        @Override
+//        public void setTitle(String s) {
+//
+//        }
+//    };
 }
