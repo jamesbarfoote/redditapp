@@ -74,7 +74,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         if (!currentItem.imageURL.isEmpty()) {
             Glide.with(mContext)
                     .load(currentItem.imageURL)
-                    .placeholder(R.drawable.ic_menu_camera)
+                    .placeholder(R.drawable.ic_ring)
                     .crossFade()
                     .into(holder.mImage);
         }
