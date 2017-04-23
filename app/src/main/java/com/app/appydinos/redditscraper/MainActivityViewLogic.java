@@ -36,7 +36,6 @@ public class MainActivityViewLogic {
         myDataset = new ArrayList<>();
         mContext = context;
         mCaller = caller;
-
     }
 
     public void getJSONData(String sub, String order) {
@@ -171,12 +170,6 @@ public class MainActivityViewLogic {
                             thisPost.user = author;
                             thisPost.comments = comments;
                             thisPost.imageURL = imgUrl;
-
-//                            if(!thumbnail.isEmpty()) {
-////                                new DownloadImageTask(thisPost, postCount).execute(thumbnail);
-//                                new DownloadImageTask(thisPost, postCount).execute(imgUrl);
-//                            }
-
                             redditPosts.add(thisPost);
                         }
                     }
