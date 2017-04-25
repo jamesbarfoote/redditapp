@@ -140,6 +140,8 @@ public class PostActivityViewLogic {
                     thisPost.contentText = content;
                     thisPost.comments = comments;
                     thisPost.timeSincePost = formattedDate;
+                    CommentLoader loader = new CommentLoader(mJSONString);
+                    thisPost.commentsList = loader.fetchComments();
                     redditPost = thisPost;
                 }
 

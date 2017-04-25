@@ -70,15 +70,6 @@ public class MainActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), "Post clicked!", Toast.LENGTH_LONG).show();
             }
         });
-
-//        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-//        mBinding.setViewLogic(mViewLogic);
-//        mBinding.postImage.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "Post clicked!", Toast.LENGTH_LONG);
-//            }
-//        });
     }
 
     protected void populateScreen(@NonNull ArrayList<RedditItemDTO> myDataset) {

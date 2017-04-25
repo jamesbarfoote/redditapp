@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,18 +9,19 @@
             type="com.app.appydinos.redditscraper.PostWrapperActivity.PostActivityViewLogic" />
     </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
         android:padding="16dp"
+        android:orientation="vertical"
         tools:context=".PostWrapperActivity.PostActivity">
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <!--<android.support.v4.widget.NestedScrollView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content">-->
 
-            <RelativeLayout
+        <android.support.v7.widget.RecyclerView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -62,10 +62,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/postContent"
-                    android:textColor="@color/primaryText" />
+                    android:textColor="@color/primaryText"
+                    android:paddingBottom="10dp" />
 
-            </RelativeLayout>
-        </ScrollView>
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/postPoints"
+                android:id="@+id/commentList"></android.support.v7.widget.RecyclerView>
+        </android.support.v7.widget.RecyclerView>
+
+
+        <!--</android.support.v4.widget.NestedScrollView>-->
+    </RelativeLayout>
 
 </layout>

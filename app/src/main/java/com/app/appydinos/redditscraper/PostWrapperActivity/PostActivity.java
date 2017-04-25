@@ -3,11 +3,14 @@ package com.app.appydinos.redditscraper.PostWrapperActivity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.app.appydinos.redditscraper.Components.CommentsAdapter;
 import com.app.appydinos.redditscraper.R;
 import com.app.appydinos.redditscraper.RedditItemDTO;
 import com.app.appydinos.redditscraper.databinding.PostLayoutBinding;
@@ -19,6 +22,10 @@ import com.app.appydinos.redditscraper.databinding.PostLayoutBinding;
 public class PostActivity extends AppCompatActivity {
     PostActivityViewLogic mViewLogic;
     PostLayoutBinding mBinding;
+    private CommentsAdapter mAdapter;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +42,11 @@ public class PostActivity extends AppCompatActivity {
 
         mBinding = DataBindingUtil.setContentView(this, R.layout.post_layout);
 
+        mRecyclerView = (RecyclerView) findViewById(R.id.commentList);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         mViewLogic.getJSONData(postURL, "new");
     }
@@ -45,6 +57,9 @@ public class PostActivity extends AppCompatActivity {
 
         mBinding.user.setText(dto.user + " \u2022 " + dto.timeSincePost);
         mBinding.postPoints.setText(dto.points + "pts \u2022 " + dto.comments + " comments");
+
+        mAdapter = new CommentsAdapter(dto.commentsList, getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
 //        mBinding.postImage.setImageResource(android.R.drawable.alert_light_frame);
     }
 
