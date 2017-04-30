@@ -13,67 +13,60 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimaryDark"
-        android:padding="16dp"
         android:orientation="vertical"
+        android:padding="16dp"
         tools:context=".PostWrapperActivity.PostActivity">
 
-        <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content">-->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <android.support.v7.widget.RecyclerView
+            <TextView
+                android:id="@+id/postTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content"
+                android:textColor="@color/primaryText" />
 
-                <TextView
-                    android:id="@+id/postTitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/primaryText" />
+            <TextView
+                android:id="@+id/user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/postTitle"
+                android:textColor="@color/primaryText" />
 
-                <TextView
-                    android:id="@+id/user"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/postTitle"
-                    android:textColor="@color/primaryText" />
-
-                <ImageView
-                    android:id="@+id/postImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_below="@+id/user"
-                    android:adjustViewBounds="true"
-                    android:paddingTop="10dp"
-                    android:saveEnabled="true" />
-
-                <TextView
-                    android:id="@+id/postContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/postImage"
-                    android:textColor="@color/primaryText"
-                    android:autoLink="all" />
-
-                <TextView
-                    android:id="@+id/postPoints"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/postContent"
-                    android:textColor="@color/primaryText"
-                    android:paddingBottom="10dp" />
-
-            <android.support.v7.widget.RecyclerView
+            <ImageView
+                android:id="@+id/postImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/postPoints"
-                android:id="@+id/commentList"></android.support.v7.widget.RecyclerView>
-        </android.support.v7.widget.RecyclerView>
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/user"
+                android:adjustViewBounds="true"
+                android:paddingTop="10dp"
+                android:saveEnabled="true" />
 
+            <TextView
+                android:id="@+id/postContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/postImage"
+                android:autoLink="all"
+                android:textColor="@color/primaryText" />
 
-        <!--</android.support.v4.widget.NestedScrollView>-->
+            <TextView
+                android:id="@+id/postPoints"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/postContent"
+                android:paddingBottom="10dp"
+                android:textColor="@color/primaryText" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/commentList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/postPoints" />
+        </RelativeLayout>
     </RelativeLayout>
 
 </layout>

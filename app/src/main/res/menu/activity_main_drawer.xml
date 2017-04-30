@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu>
 
-    <group android:checkableBehavior="single">
+    <!--<group-->
+    <!--android:id="@+id/second"-->
+    <!--android:checkableBehavior="single">-->
+    <!--<item xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--android:id="@+id/navi_item_text_layout"-->
+    <!--android:title=""-->
+    <!--app:actionLayout="@layout/text_layout"-->
+    <!--app:showAsAction="always" />-->
+
+    <!--</group>-->
+
+    <!--<group android:checkableBehavior="single">-->
         <!--<item-->
         <!--android:id="@+id/nav_camera"-->
         <!--android:icon="@drawable/ic_menu_camera"-->
@@ -18,19 +29,19 @@
         <!--android:id="@+id/nav_manage"-->
         <!--android:icon="@drawable/ic_menu_manage"-->
         <!--android:title="Tools" />-->
-    </group>
+    <!--</group>-->
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+    <!--<item android:title="Subreddot">-->
+    <!--<menu>-->
+    <!--<item-->
+    <!--android:id="@+id/nav_share"-->
+    <!--android:icon="@drawable/ic_menu_share"-->
+    <!--android:title="Share" />-->
+    <!--<item-->
+    <!--android:id="@+id/nav_send"-->
+    <!--android:icon="@drawable/ic_menu_send"-->
+    <!--android:title="Send" />-->
+    <!--</menu>-->
+    <!--</item>-->
 
 </menu>

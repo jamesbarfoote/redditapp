@@ -33,7 +33,8 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         // each data item is just a string in this case
         private TextView mCommentInfo;
         //        private TextView mCommentContent;
-        WebView mCommentWebView;
+        private WebView mCommentWebView;
+        private TextView mTitle;
 
         private ViewHolder(View v) {
             super(v);

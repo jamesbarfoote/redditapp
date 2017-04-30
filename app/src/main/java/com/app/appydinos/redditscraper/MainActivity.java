@@ -1,5 +1,8 @@
 package com.app.appydinos.redditscraper;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -10,10 +13,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.app.appydinos.redditscraper.Components.MyAdapter;
 
@@ -37,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -57,6 +63,28 @@ public class MainActivity extends AppCompatActivity
 
         mViewLogic.getJSONData("askreddit", "hot");
 
+        EditText tv = new EditText(this);
+        tv.setHint("Enter subreddit");
+        tv.setWidth(this.getWindow().getWindowManager().getDefaultDisplay().getWidth());
+        tv.setTextColor(Color.WHITE);
+        tv.setHintTextColor(Color.GRAY);
+        tv.setTypeface(null, Typeface.BOLD);
+        tv.setTextSize(14);
+        tv.setSingleLine();
+
+        tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL) {
+                    mViewLogic.getJSONData(v.getText().toString(), "new");
+                    drawer.closeDrawers();
+                }
+                return false;
+            }
+        });
+
+        navigationView.getMenu().add("").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
         navigationView.getMenu().add("android");
         navigationView.getMenu().add("askreddit");
         navigationView.getMenu().add("newzealand");
@@ -64,10 +92,24 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().add("earthporn");
         navigationView.getMenu().add("redditdev");
 
-        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Post clicked!", Toast.LENGTH_LONG).show();
+            public void onDrawerOpened(View drawerView) {
+                // do something
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(drawerView.getApplicationWindowToken(), 0);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
             }
         });
     }
