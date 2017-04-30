@@ -1,5 +1,6 @@
 package com.app.appydinos.redditscraper.Components;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -16,6 +17,7 @@ import com.app.appydinos.redditscraper.PostWrapperActivity.PostActivity;
 import com.app.appydinos.redditscraper.R;
 import com.app.appydinos.redditscraper.RedditItemDTO;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -78,11 +80,23 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.mTitleText.setText(currentItem.titleText);
         holder.mContentText.setText(currentItem.contentText);
         if (!currentItem.imageURL.isEmpty()) {
+
+            final ObjectAnimator anim = ObjectAnimator.ofInt(holder.mImage, "ImageLevel", 0, 100);
+            anim.setRepeatCount(ObjectAnimator.INFINITE);
+            anim.start();
+
+//            holder.mImage.setMaxHeight(1000);
+//            holder.mImage.setMinimumHeight(200);
             Glide.with(mContext)
                     .load(currentItem.imageURL)
                     .placeholder(R.drawable.ic_ring)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .crossFade()
+                    .centerCrop()
                     .into(holder.mImage);
+        } else {
+            holder.mImage.getLayoutParams().height = 0;
+            holder.mImage.requestLayout();
         }
         holder.mPostInfo.setText(currentItem.user + " \u2022 " + currentItem.points + "pts \u2022 " + currentItem.comments + " comments");
 
