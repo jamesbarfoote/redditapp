@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     protected void populateScreen(@NonNull ArrayList<RedditItemDTO> myDataset) {
-        mAdapter = new MyAdapter(myDataset, this);
+        mAdapter = new MyAdapter(myDataset, this, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
         mRecyclerView.setAdapter(mAdapter);
     }
 

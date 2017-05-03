@@ -21,11 +21,10 @@ import com.app.appydinos.redditscraper.databinding.PostLayoutBinding;
 
 public class PostActivity extends AppCompatActivity {
     PostActivityViewLogic mViewLogic;
-    PostLayoutBinding mBinding;
     private CommentsAdapter mAdapter;
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
-
+    private PostLayoutBinding mBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

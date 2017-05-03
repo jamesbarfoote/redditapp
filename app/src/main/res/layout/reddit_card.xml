@@ -31,7 +31,7 @@
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp">
 
-                <ImageView
+                <com.github.chrisbanes.photoview.PhotoView
                     android:id="@+id/post_image"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
