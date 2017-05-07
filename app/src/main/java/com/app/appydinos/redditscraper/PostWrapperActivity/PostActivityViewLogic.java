@@ -115,7 +115,6 @@ public class PostActivityViewLogic {
         if (mJSONString != null) {
             try {
                 JSONArray jsonArray = new JSONArray(mJSONString);
-//                for(int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObj = jsonArray.getJSONObject(0);
                 // Getting JSON Array node
                 JSONObject object = jsonObj.getJSONObject("data");

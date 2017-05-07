@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.app.appydinos.redditscraper.PostWrapperActivity.Comment;
 import com.app.appydinos.redditscraper.R;
 
+import org.sufficientlysecure.htmltextview.HtmlTextView;
+
 import java.util.ArrayList;
 
 /**
@@ -32,15 +34,12 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
     protected static class ViewHolder extends RecyclerView.ViewHolder {
         // each data item is just a string in this case
         private TextView mCommentInfo;
-        //        private TextView mCommentContent;
-        private WebView mCommentWebView;
-        private TextView mTitle;
+        private HtmlTextView htmlTextView;
 
         private ViewHolder(View v) {
             super(v);
             mCommentInfo = (TextView) v.findViewById(R.id.commentInfo);
-            mCommentWebView = (WebView) v.findViewById(R.id.commentWebview);
-//            mCommentContent = (TextView) v.findViewById(R.id.commentContents);
+            htmlTextView = (HtmlTextView) v.findViewById(R.id.commentsContent);
         }
     }
 
@@ -71,19 +70,7 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentsAdapter.ViewHo
         // - replace the contents of the view with that element
         final Comment currentItem = mDataset.get(position);
         holder.mCommentInfo.setText(currentItem.author + " \u2022 " + currentItem.points + " \u2022 " + currentItem.postedOn);
-        Spanned htmlAsSpanned = Html.fromHtml(currentItem.htmlText);
-
-        holder.mCommentWebView.setBackgroundColor(Color.BLACK);
-        holder.mCommentWebView.loadDataWithBaseURL(null, htmlAsSpanned.toString(), "text/html", "utf-8", null);
-
-        holder.mCommentWebView.getSettings().setJavaScriptEnabled(true);
-        holder.mCommentWebView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                view.loadUrl(
-                        "javascript:document.body.style.setProperty(\"color\", \"white\");"
-                );
-            }
-        });
+        holder.htmlTextView.setHtml(Html.fromHtml(currentItem.htmlText).toString());
     }
 
     // Return the size of your dataset (invoked by the layout manager)

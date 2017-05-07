@@ -37,4 +37,5 @@ dependencies {
     compile 'com.github.chathuralakmal:AndroidImagePopup:1.0.6'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.bartoszlipinski:recyclerviewheader2:2.0.1'
+    compile 'org.sufficientlysecure:html-textview:3.3'
 }

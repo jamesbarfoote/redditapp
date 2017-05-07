@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity
     private MyAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private MainActivityViewLogic mViewLogic;
-    private String sortBy = "Hot";
+    private String sortBy = "hot";
     private String currentSub = "Askreddit";
 
     @Override
@@ -76,7 +76,9 @@ public class MainActivity extends AppCompatActivity
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL) {
-                    mViewLogic.getJSONData(v.getText().toString(), "new");
+                    currentSub = v.getText().toString();
+                    mViewLogic.getJSONData(currentSub, sortBy);
+                    v.setText("");
                     drawer.closeDrawers();
                 }
                 return false;
