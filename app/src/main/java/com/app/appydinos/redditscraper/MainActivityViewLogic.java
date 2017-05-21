@@ -12,6 +12,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -36,6 +38,7 @@ public class MainActivityViewLogic {
         myDataset = new ArrayList<>();
         mContext = context;
         mCaller = caller;
+//        loadSavedSubs();
     }
 
     public void getJSONData(String sub, String order) {
@@ -202,6 +205,66 @@ public class MainActivityViewLogic {
         if (mProgressDialog.isShowing()){
             mProgressDialog.dismiss();
         }
+    }
+
+    public @NonNull ArrayList<String> loadSavedSubs() {
+        String FILENAME = "savedSubs_file";
+        ArrayList<String> subs = new ArrayList<>();
+
+        FileInputStream fos = null;
+        try {
+            fos = mCaller.openFileInput(FILENAME);
+            InputStreamReader isr = new InputStreamReader(fos);
+            BufferedReader buffreader = new BufferedReader(isr);
+
+            String readString = buffreader.readLine();
+            while (readString != null) {
+                subs.add(readString);
+                readString = buffreader.readLine();
+            }
+
+            if(subs.isEmpty()) {
+                subs.add("askreddit");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return subs;
+    }
+
+    public String saveSub(String sub) {
+        String FILENAME = "savedSubs_file";
+
+        FileOutputStream fos = null;
+        try {
+            fos = mCaller.openFileOutput(FILENAME, Context.MODE_APPEND);
+
+            if(!loadSavedSubs().contains(sub)) {
+                String saveString = sub + "\n";
+                fos.write(saveString.getBytes());
+                return sub;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(fos != null) {
+                try {
+                    fos.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return "";
     }
 
 //    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {

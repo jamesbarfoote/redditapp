@@ -15,6 +15,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -87,12 +88,10 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.getMenu().add("").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        navigationView.getMenu().add("android");
-        navigationView.getMenu().add("askreddit");
-        navigationView.getMenu().add("newzealand");
-        navigationView.getMenu().add("raspberry_pi");
-        navigationView.getMenu().add("earthporn");
-        navigationView.getMenu().add("redditdev");
+        ArrayList<String> subs = mViewLogic.loadSavedSubs();
+        for(String s : subs) {
+            navigationView.getMenu().add(s);
+        }
 
         drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
@@ -133,20 +132,36 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
+
         // Inflate the menu; this adds items to the action bar if it is present.
         menu.add("Hot");
         menu.add("New");
         menu.add("Top");
         menu.add("Rising");
         menu.add("Controversial");
+
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (!item.getTitle().toString().toLowerCase().equals("save")) {
+            sortBy = item.getTitle().toString().toLowerCase();
+            mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
+        }  else {
+            //Clicked the save button
+            String newSub = mViewLogic.saveSub(currentSub);
 
-        sortBy = item.getTitle().toString();
-        mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setNavigationItemSelectedListener(this);
+
+            if(!newSub.isEmpty()) {
+                navigationView.getMenu().add(newSub);
+            }
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -155,11 +170,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
-        currentSub = item.getTitle().toString();
-        mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
+        if(!item.getTitle().toString().equals("Save")) {
+            currentSub = item.getTitle().toString();
+            mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        }
+
         return true;
     }
 }
