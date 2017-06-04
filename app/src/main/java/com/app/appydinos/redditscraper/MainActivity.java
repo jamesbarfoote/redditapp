@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.app.appydinos.redditscraper.Components.MyAdapter;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity
     private MainActivityViewLogic mViewLogic;
     private String sortBy = "hot";
     private String currentSub = "Askreddit";
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         mViewLogic = new MainActivityViewLogic();
@@ -65,7 +67,7 @@ public class MainActivity extends AppCompatActivity
         mViewLogic.getJSONData("askreddit", "hot");
 
         EditText tv = new EditText(this);
-        tv.setHint("Enter subreddit");
+        tv.setHint("Goto subreddit");
         tv.setWidth(this.getWindow().getWindowManager().getDefaultDisplay().getWidth());
         tv.setTextColor(Color.WHITE);
         tv.setHintTextColor(Color.GRAY);
@@ -76,7 +78,7 @@ public class MainActivity extends AppCompatActivity
         tv.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL) {
+                if (actionId == KeyEvent.KEYCODE_ENTER || actionId == KeyEvent.KEYCODE_ENDCALL || actionId == KeyEvent.KEYCODE_CALL) {
                     currentSub = v.getText().toString();
                     mViewLogic.getJSONData(currentSub, sortBy);
                     v.setText("");
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.getMenu().add("").setActionView(tv).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         ArrayList<String> subs = mViewLogic.loadSavedSubs();
-        for(String s : subs) {
+        for (String s : subs) {
             navigationView.getMenu().add(s);
         }
 
@@ -130,47 +132,72 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    //The action bar menu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-
         // Inflate the menu; this adds items to the action bar if it is present.
-        menu.add("Hot");
-        menu.add("New");
-        menu.add("Top");
-        menu.add("Rising");
-        menu.add("Controversial");
+        if (mViewLogic.loadSavedSubs().contains(currentSub)) {
+            menu.add("Remove Sub");
+        }
+//        menu.add("New");
+//        menu.add("Top");
+//        menu.add("Rsising");
+//        menu.add("Controversial");
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+
         return true;
     }
 
+
+    //The action bar menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!item.getTitle().toString().toLowerCase().equals("save")) {
-            sortBy = item.getTitle().toString().toLowerCase();
-            mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
-        }  else {
+
+        if (item.getTitle().toString().equalsIgnoreCase("save")) {
             //Clicked the save button
             String newSub = mViewLogic.saveSub(currentSub);
 
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setNavigationItemSelectedListener(this);
 
-            if(!newSub.isEmpty()) {
+            if (!newSub.isEmpty()) {
                 navigationView.getMenu().add(newSub);
             }
+        } else if (item.getTitle().toString().equalsIgnoreCase("Sort")) {
+            //Creating the instance of PopupMenu
+            View menuItemView = findViewById(R.id.sortButton);
+            PopupMenu popup = new PopupMenu(this, menuItemView);
+
+            //Inflating the Popup using xml file
+            popup.inflate(R.menu.sort_menu);
+
+            //registering popup with OnMenuItemClickListener
+            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                public boolean onMenuItemClick(MenuItem item) {
+                    sortBy = item.getTitle().toString().toLowerCase();
+                    mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
+                    return true;
+                }
+            });
+
+            popup.show();//showing popup menu
+        } else {
+            sortBy = item.getTitle().toString().toLowerCase();
+            mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
+    //The side bar navigation
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
-        if(!item.getTitle().toString().equals("Save")) {
+
+        if (!item.getTitle().toString().equals("Save")) {
             currentSub = item.getTitle().toString();
             mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
 
