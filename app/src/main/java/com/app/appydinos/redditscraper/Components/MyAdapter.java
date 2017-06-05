@@ -121,7 +121,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             holder.mImage.getLayoutParams().height = 0;
             holder.mImage.requestLayout();
         }
-        holder.mPostInfo.setText(currentItem.user + " \u2022 " + currentItem.points + "pts \u2022 " + currentItem.comments + " comments");
+        holder.mPostInfo.setText(currentItem.user + " \u2022 " + currentItem.points + "pts \u2022 " + currentItem.comments + " comments \u2022 " + currentItem.timeSincePost);
 
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -23,6 +23,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import static com.app.appydinos.redditscraper.PostWrapperActivity.PostActivityViewLogic.getTimeAgo;
+
 /**
  * Created by james on 17-Apr-17.
  */
@@ -138,7 +140,7 @@ public class MainActivityViewLogic {
                             String score = obj.getString("score");
                             String author = obj.getString("author");
                             String comments = obj.getString("num_comments");
-                            String created = obj.getString("created_utc");
+                            String created = getTimeAgo(obj.getLong("created_utc") * 1000);
 
                             String imgUrl = "";
                             //Get preview
@@ -172,6 +174,7 @@ public class MainActivityViewLogic {
                             thisPost.user = author;
                             thisPost.comments = comments;
                             thisPost.imageURL = imgUrl;
+                            thisPost.timeSincePost = created;
                             redditPosts.add(thisPost);
                         }
                     }
