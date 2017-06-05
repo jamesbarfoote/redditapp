@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RedditScraperApp.iml" filepath="$PROJECT_DIR$/RedditScraperApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/redditapp.iml" filepath="$PROJECT_DIR$/redditapp.iml" />
     </modules>
   </component>
 </project>

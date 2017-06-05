@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp">
+
+    <TextView
+        android:id="@+id/commentInfo"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:textColor="@color/primaryText" />
+
+    <org.sufficientlysecure.htmltextview.HtmlTextView
+        android:id="@+id/commentsContent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAppearance="@android:style/TextAppearance.Small"
+        android:layout_below="@+id/commentInfo"
+        android:textColor="@color/primaryText"
+        android:autoLink="all"/>
+
+    <View
+        android:id="@+id/bottomLine"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="#ffffff"
+        android:paddingBottom="10dp"
+        android:layout_below="@id/commentsContent"/>
+
+
+</RelativeLayout>
