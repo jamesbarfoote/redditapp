@@ -209,12 +209,37 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void updateOverflowMenu() {
-        if (mViewLogic.loadSavedSubs().contains(currentSub) && optionsMenu != null) {
-            onPrepareOptionsMenu(optionsMenu);
-            optionsMenu.add("Remove Sub");
-        } else if (optionsMenu != null) {
-            onPrepareOptionsMenu(optionsMenu);
-            optionsMenu.removeItem(0);
+        if (optionsMenu != null) {
+            boolean containsRemoveItem = false;
+            int index = -1;
+            int saveIconIndex = -1;
+            for (int i = 0; i < optionsMenu.size(); i++) {
+                if (optionsMenu.getItem(i).getTitle().equals("Remove Sub")) {
+                    containsRemoveItem = true;
+                    index = i;
+                }
+
+                if (optionsMenu.getItem(i).getTitle().equals("Save")) {
+                    saveIconIndex = i;
+                }
+            }
+
+            if (mViewLogic.loadSavedSubs().contains(currentSub) && !containsRemoveItem) {
+                onPrepareOptionsMenu(optionsMenu);
+                optionsMenu.add("Remove Sub");
+            } else if (optionsMenu != null && containsRemoveItem) {
+                onPrepareOptionsMenu(optionsMenu);
+                optionsMenu.removeItem(index);
+            }
+
+            if (saveIconIndex >= 0 && mViewLogic.loadSavedSubs().contains(currentSub)) {
+                optionsMenu.getItem(saveIconIndex).setEnabled(false);
+                optionsMenu.getItem(saveIconIndex).setVisible(false);
+            } else if (saveIconIndex > -1 && !mViewLogic.loadSavedSubs().contains(currentSub)) {
+                optionsMenu.getItem(saveIconIndex).setEnabled(true);
+                optionsMenu.getItem(saveIconIndex).setVisible(true);
+
+            }
         }
     }
 }
