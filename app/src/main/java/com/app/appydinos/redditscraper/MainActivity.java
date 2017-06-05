@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity
     private String sortBy = "hot";
     private String currentSub = "Askreddit";
     private NavigationView navigationView;
+    private Menu optionsMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,8 @@ public class MainActivity extends AppCompatActivity
     protected void populateScreen(@NonNull ArrayList<RedditItemDTO> myDataset) {
         mAdapter = new MyAdapter(myDataset, this, getWindow().getWindowManager().getDefaultDisplay().getWidth(), getWindow().getWindowManager().getDefaultDisplay().getHeight());
         mRecyclerView.setAdapter(mAdapter);
+
+        updateOverflowMenu();
     }
 
     @Override
@@ -140,13 +143,10 @@ public class MainActivity extends AppCompatActivity
         if (mViewLogic.loadSavedSubs().contains(currentSub)) {
             menu.add("Remove Sub");
         }
-//        menu.add("New");
-//        menu.add("Top");
-//        menu.add("Rsising");
-//        menu.add("Controversial");
 
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        optionsMenu = menu;
 
         return true;
     }
@@ -185,8 +185,8 @@ public class MainActivity extends AppCompatActivity
 
             popup.show();//showing popup menu
         } else {
-            sortBy = item.getTitle().toString().toLowerCase();
-            mViewLogic.getJSONData(currentSub.toLowerCase(), sortBy.toLowerCase());
+            //User clicked remove sub
+            mViewLogic.removeSavedSub(currentSub);
         }
 
         return super.onOptionsItemSelected(item);
@@ -206,5 +206,15 @@ public class MainActivity extends AppCompatActivity
         }
 
         return true;
+    }
+
+    private void updateOverflowMenu() {
+        if (mViewLogic.loadSavedSubs().contains(currentSub) && optionsMenu != null) {
+            onPrepareOptionsMenu(optionsMenu);
+            optionsMenu.add("Remove Sub");
+        } else if (optionsMenu != null) {
+            onPrepareOptionsMenu(optionsMenu);
+            optionsMenu.removeItem(0);
+        }
     }
 }

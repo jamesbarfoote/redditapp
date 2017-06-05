@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="10dp"
-    android:paddingBottom="10dp">
+    android:padding="12dp">
 
     <TextView
         android:id="@+id/commentInfo"
@@ -22,6 +21,7 @@
         android:autoLink="all"/>
 
     <View
+        android:id="@+id/bottomLine"
         android:layout_width="fill_parent"
         android:layout_height="1dp"
         android:background="#ffffff"

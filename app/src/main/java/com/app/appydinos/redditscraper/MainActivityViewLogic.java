@@ -38,12 +38,11 @@ public class MainActivityViewLogic {
         myDataset = new ArrayList<>();
         mContext = context;
         mCaller = caller;
-//        loadSavedSubs();
     }
 
     public void getJSONData(String sub, String order) {
         mCaller.setTitle(sub);
-        String url = String.format("https://www.reddit.com/r/%s/%s/.json", sub, order);
+        String url = String.format("https://www.reddit.com/r/%s/%s/.json?limit=50&after=t3_10omtd/", sub, order);
         new JsonTask().execute(url);
     }
 
@@ -265,6 +264,10 @@ public class MainActivityViewLogic {
             }
         }
         return "";
+    }
+
+    public void removeSavedSub(String sub) {
+
     }
 
 //    private class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
